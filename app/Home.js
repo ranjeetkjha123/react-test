@@ -26,8 +26,12 @@ class Home extends Component {
 }
   render() {
     const original= this.state.userdata;
-    console.log('innerdata', original)
 return (
+  <div>
+    <Link to="/edit">
+    <button>New User</button>
+    </Link>
+    <br/>
   <div>
     <ReactTable
       data={original}
@@ -82,6 +86,7 @@ return (
       className="-striped -highlight"
     />
     <br />
+  </div>
   </div>
 );
   }

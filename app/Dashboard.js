@@ -7,10 +7,27 @@ class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-   userdata: []
+   userdata: [],
+   name: '',
+   email: '',
   };
     this.renderEditable = this.renderEditable.bind(this);
   }
+  handleChange(event) {
+    if (event.target.name === "name")
+      this.setState({ name: event.target.value });
+    if (event.target.name === "email")
+      this.setState({ email: event.target.value });
+  };
+
+  handleSubmit(event) {
+    this.state.userdata.push({
+        name: this.state.name,
+        email: this.state.email
+    });
+    this.setState({ name: "", email: "" });
+    event.preventDefault();
+};
   componentDidMount() {
     var self = this;
     axios.get('https://randomuser.me/api/?results=1000')
@@ -32,6 +49,8 @@ class Dashboard extends Component {
           const userdata = [...this.state.userdata];
           userdata[cellInfo.index][cellInfo.column.id] = e.target.innerHTML;
           this.setState({ userdata });
+          console.log('tableeditdata', e.target.innerHTML);
+          console.log('html', this.state.userdata[cellInfo.index][cellInfo.column.id]);
         }}
         dangerouslySetInnerHTML={{
           __html: this.state.userdata[cellInfo.index][cellInfo.column.id]
@@ -41,8 +60,36 @@ class Dashboard extends Component {
   }
   render() {
     const original= this.state.userdata;
-    console.log('innerdata', original)
     return (
+      <div className="App">
+        <header className="App-header">
+
+          <h1 className="App-title">Add USER</h1>
+        </header>
+        <p className="App-intro">
+          <form onSubmit={this.handleSubmit}>
+            <h3>Add new record</h3>
+            <label>
+              Name:
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+            </label>{" "}
+            <label>
+              Email:
+              <input
+                type="text"
+                name="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </label>
+            <input type="submit" value="Add" />
+          </form>
+        </p>
       <div>
         <ReactTable
           data={original}
@@ -65,7 +112,6 @@ class Dashboard extends Component {
                 {
                   Header: "Age",
                   accessor: "dob.age",
-                  Cell: this.renderEditable
                 },
                 {
                   Header: "mobile",
@@ -79,12 +125,10 @@ class Dashboard extends Component {
                 {
                   Header: "DOB",
                   accessor: "dob.date",
-                  Cell: this.renderEditable
                 },
                 {
                   Header: "location",
                   accessor: "location.city",
-                  Cell: this.renderEditable
                 }
               ]
             }
@@ -93,7 +137,7 @@ class Dashboard extends Component {
           className="-striped -highlight"
         />
         <br />
-
+      </div>
       </div>
     );
   }

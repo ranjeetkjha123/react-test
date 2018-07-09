@@ -10,10 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "npm": "^6.1.0",
     "react-redux": "^5.0.6",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-table": "^6.8.6",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "start": "^5.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",
